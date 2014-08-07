@@ -1,0 +1,204 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:pt="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:c="http://java.sun.com/jsp/jstl/core">
+ 
+<body>
+    <div class="col-md-8">
+        <h1>Crie sua conta do Projeto.com.br!</h1>
+        <p>Criando sua conta no Projeto.com.br você poderá localizar estabelecimento por 
+        	toda Teresina</p>
+        <br />
+        <h:form class="form-horizontal" role="form">
+            <div class="form-group">
+                <h:outputLabel for="inputEmail" value="Email"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-5">
+                    <h:inputText value="#{usuarioBean.perfil.email}" required="true"
+                        class="form-control" id="inputEmail"
+                        pt:placeholder="Digite aqui seu email"
+                        validatorMessage="email inválido."
+                        requiredMessage="é necessário que você informe seu email.">
+                        <f:validateRegex pattern="[a-zA-Z0-9\-\_\.]+@[a-zA-Z0-9\-\_\.]+" />
+                        <f:ajax event="blur" render="m_inputEmail" />
+                    </h:inputText>
+                    <h:message id="m_inputEmail" for="inputEmail"
+                        style="color:#D74937;" />
+                </div>
+            </div>
+             
+            <div class="form-group">
+                <h:outputLabel for="password" value="Senha"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-6">
+                    <h:inputSecret value="#{usuarioBean.usuario.senha}" id="password"
+                        styleClass="form-control"
+                        pt:placeholder="Digite aqui sua senha entre 6 e 20 caracteres"
+                        required="true"
+                        requiredMessage="é necessário que você informe sua senha."
+                        validatorMessage="a senha deve conter entre 6 e 20 caracteres."
+                        binding="#{passwordComponent}">
+                        <f:validateLength minimum="6" maximum="20" />
+                        <f:ajax event="blur" render="m_password" />
+                    </h:inputSecret>
+                    <h:message id="m_password" for="password" style="color:#D74937;" />
+                </div>
+            </div>
+ 
+            <div class="form-group">
+                <h:outputLabel for="confirmPassword" value="Confirme a senha"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-6">
+                    <h:inputSecret id="confirmPassword" required="#{not empty passwordComponent.value}"
+                        styleClass="form-control"
+                        pt:placeholder="Confirme aqui sua senha"
+                        requiredMessage="é necessário que você informe a confirmação de sua senha.">                        
+                        <f:validator validatorId="confirmPasswordValidator" />
+                        <f:attribute name="passwordComponent" value="#{passwordComponent}" />
+                        <f:ajax event="blur" execute="confirmPassword password" render="m_confirm" />                       
+                    </h:inputSecret>
+                    <h:message id="m_confirm" for="confirmPassword" style="color:#D74937;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="inputfirstname" value="Primeiro nome"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-7">
+                    <h:inputText value="#{usuarioBean.perfil.nome}" class="form-control"
+                        id="inputfirstname"
+                        pt:placeholder="Digite aqui seu primeiro nome entre 2 e 30 caracteres"
+                        required="true"
+                        validatorMessage="primeiro nome deve conter entre 2 e 30 caracteres."
+                        requiredMessage="é necessário que você informe seu primeiro nome.">
+                        <f:validateLength minimum="2" maximum="30" />
+                        <f:ajax event="blur" render="m_inputfirstname" />
+                    </h:inputText>
+                    <h:message id="m_inputfirstname" for="inputfirstname"
+                        style="color:#D74937;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <h:outputLabel for="inputlastname" value="Sobrenome"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-8">
+                    <h:inputText value="#{usuarioBean.perfil.sobreNome}" class="form-control"
+                        id="inputlastname"
+                        pt:placeholder="Digite aqui seu sobrenome entre 2 e 40 caracteres"
+                        required="true"
+                        validatorMessage="sobrenome nome deve conter entre 2 e 40 caracteres."
+                        requiredMessage="é necessário que você informe seu sobrenome.">
+                        <f:validateLength minimum="2" maximum="40" />
+                        <f:ajax event="blur" render="m_inputlastname" />
+                    </h:inputText>
+                    <h:message id="m_inputlastname" for="inputlastname"
+                        style="color:#D74937;" />
+                </div>
+            </div>
+ 
+            <div class="form-group">
+                <h:outputLabel value="Aniversário"
+                    styleClass="col-sm-3 control-label" />
+                <div class="col-sm-8">
+                    <h:outputLabel value="dia" style="padding-right:6px;"
+                        styleClass="control-label" />
+                    <h:selectOneMenu value="#{usuarioBean.day}" required="true" id="day"
+                        requiredMessage="é necessário que você informe o dia que nasceu.">
+                        <f:selectItem itemValue="#{null}" itemLabel="dia" />
+                        <f:selectItems value="#{usuarioBean.getDays()}" />
+                        <f:ajax event="blur" render="m_day" />
+                    </h:selectOneMenu>
+                    <h:outputLabel value="mês"
+                        style="padding-right:6px; padding-left:6px;"
+                        styleClass="control-label" />
+                    <h:selectOneMenu value="#{usuarioBean.month}" required="true" id="month"
+                        requiredMessage="é necessário que você informe o mês que nasceu.">
+                        <f:selectItem itemValue="#{null}" itemLabel="mês" />
+                        <f:selectItems value="#{usuarioBean.getMonths()}" />
+                        <f:ajax event="blur" render="m_month" />
+                    </h:selectOneMenu>
+                    <h:outputLabel value="ano"
+                        style="padding-right:6px; padding-left:6px;"
+                        styleClass="control-label" />
+                    <h:selectOneMenu value="#{usuarioBean.year}" required="true" id="year"
+                        requiredMessage="é necessário que você informe o ano que nasceu.">
+                        <f:selectItem itemValue="#{null}" itemLabel="ano" />
+                        <f:selectItems value="#{usuarioBean.getYears()}" />
+                        <f:ajax event="blur" render="m_year" />
+                    </h:selectOneMenu>
+                    <div style="padding-left: 15px;">
+                        <div class="row">
+                            <h:message id="m_day" for="day" style="color:#D74937;" />
+                        </div>
+                        <div class="row">
+                            <h:message id="m_month" for="month" style="color:#D74937;" />
+                        </div>
+                        <div class="row">
+                            <h:message id="m_year" for="year" style="color:#D74937;" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <h:outputLabel value="Sexo" styleClass="col-sm-3 control-label" />
+                <div class="col-sm-8">
+                    <h:selectOneMenu id="sexy" value="#{usuarioBean.perfil.sexo}"
+                        required="true"
+                        requiredMessage="é necessário que você informe seu sexo.">
+                        <f:selectItem itemValue="#{null}" itemLabel="Selecione" />
+                        <f:selectItem itemValue="MASCULINO" itemLabel="masculino" />
+                        <f:selectItem itemValue="FEMININO" itemLabel="feminino" />
+                        <f:selectItem itemValue="OUTRO" itemLabel="outro" />
+                        <f:ajax event="blur" render="m_sexy" />
+                    </h:selectOneMenu>
+                    <div class="row" style="padding-left: 15px;">
+                        <h:message id="m_sexy" for="sexy" style="color:#D74937;" />
+                    </div>
+ 
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                    <div class="checkbox">
+                        <h:outputLabel>
+                            <h:selectBooleanCheckbox
+                                requiredMessage="por favor, confirme a leitura de nossos termos de serviço"
+                                id="terms">
+                                <f:validator validatorId="requiredCheckboxValidator" />
+                                <f:ajax event="blur" render="m_terms" />
+                            </h:selectBooleanCheckbox>
+                                    Concordo com os <h:outputLink value="#">termos de serviço</h:outputLink> do Projeto.com.br.                                     
+                                </h:outputLabel>
+                    </div>
+                    <h:message id="m_terms" for="terms" style="color:#D74937;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                    <p:captcha label="Captcha" language="pt-BR" theme="white"
+                        id="captcha"
+                        requiredMessage="é necessário que você informe os códigos secretos"
+                        validatorMessage="códigos secretos inválidos" />
+                    <h:message id="m_captcha" for="captcha" style="color:#D74937;" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                    <h:commandButton action="#{usuarioBean.save()}" value="Próxima etapa"
+                        styleClass="btn btn-default" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-offset-3 col-sm-10">
+                    <span> <h:outputLink href="#">Saiba mais</h:outputLink>
+                        sobre o motivo de pedirmos essas informações.
+                    </span>
+                </div>
+            </div>
+        </h:form>
+    </div>
+</body>
+</html>

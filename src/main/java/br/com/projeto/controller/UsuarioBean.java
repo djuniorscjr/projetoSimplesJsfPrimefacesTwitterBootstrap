@@ -1,5 +1,7 @@
 package br.com.projeto.controller;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
@@ -25,27 +27,36 @@ public class UsuarioBean {
     private int day = 0;
     private int month = 0;
     private int year = 0;
- 
+    
+    private PerfilBo perfilBo;
+    
+    private List<Perfil> listPerfil;
+    
     @PostConstruct
     public void init() {
     	usuario = new Usuario();
     	perfil = new Perfil();
+    	PerfilBo perfilBo = new PerfilBo();
+    	
     }
  
-    public String save() {
- 
-    	PerfilBo perfilBo = new PerfilBo();
- 
-    	usuario.setSenha(GenerateMD5.generate(usuario.getSenha()));
-    	usuario.setValidacao(GenerateValidation.keyValidation());
-    	usuario.getPermissoes().add(Acesso.ACESSO_COMUM.getValue());
-    	usuario.setAtivado(false);
-         
-        perfil.setUsuario(usuario);
-        perfil.setDataDeNascimento(ManipulateDate.getDate(year, month, day));
- 
-        perfilBo.save(perfil);
-        return "/public/feedback_cadastro";
+    public String save() throws Exception {
+    	try {
+    		usuario.setSenha(GenerateMD5.generate(usuario.getSenha()));
+        	usuario.setValidacao(GenerateValidation.keyValidation());
+        	usuario.getPermissoes().add(Acesso.ACESSO_COMUM.getValue());
+        	usuario.setAtivado(false);
+             
+            perfil.setUsuario(usuario);
+            perfil.setDataDeNascimento(ManipulateDate.getDate(year, month, day));
+     
+            perfilBo.salvar(perfil);
+            return "/public/feedback_cadastro";
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    	return null;
+    	
     }
  
     public Map<String, Object> getDays() {

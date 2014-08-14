@@ -1,5 +1,6 @@
 package br.com.projeto.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -11,8 +12,10 @@ import javax.persistence.OneToOne;
 import org.hibernate.annotations.NaturalId;
  
 @Entity
-public class Perfil {
- 
+public class Perfil implements Serializable{
+	
+	private static final long serialVersionUID = 1L;
+	
     @Id
     private Long id;
     private String nome;

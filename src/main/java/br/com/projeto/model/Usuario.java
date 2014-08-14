@@ -1,8 +1,10 @@
 package br.com.projeto.model;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
  
+
 
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -22,8 +24,10 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name="usuario")
 @SequenceGenerator(name = "seq", sequenceName = "seq_usuario", allocationSize = 1, initialValue = 1)
-public class Usuario{
-     
+public class Usuario implements Serializable{
+    
+	private static final long serialVersionUID = 1L;
+	
     @Id
     @GeneratedValue(generator="seq")
     private Long id;

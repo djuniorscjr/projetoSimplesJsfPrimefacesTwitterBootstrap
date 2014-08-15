@@ -15,85 +15,85 @@ import br.com.projeto.utils.Acesso;
 import br.com.projeto.utils.GenerateValidation;
 import br.com.projeto.utils.ManipulateDate;
 import br.com.projeto.utils.security.GenerateMD5;
- 
 
 @ManagedBean(name = "usuarioBean")
 @RequestScoped
 public class UsuarioBean {
- 
-    private Usuario usuario = null;
-    private Perfil perfil = null;
- 
-    private int day = 0;
-    private int month = 0;
-    private int year = 0;
-    
-    private PerfilBo perfilBo;
-    
-    private List<Perfil> listPerfil;
-    
-    @PostConstruct
-    public void init() {
-    	usuario = new Usuario();
-    	perfil = new Perfil();
-    	PerfilBo perfilBo = new PerfilBo();
-    	
-    }
- 
-    public String save() throws Exception {
-    	try {
-    		usuario.setSenha(GenerateMD5.generate(usuario.getSenha()));
-        	usuario.setValidacao(GenerateValidation.keyValidation());
-        	usuario.getPermissoes().add(Acesso.ACESSO_COMUM.getValue());
-        	usuario.setAtivado(false);
-             
-            perfil.setUsuario(usuario);
-            perfil.setDataDeNascimento(ManipulateDate.getDate(year, month, day));
-     
-            perfilBo.salvar(perfil);
-            return "/public/feedback_cadastro";
+
+	private Usuario usuario = null;
+	private Perfil perfil = null;
+
+	private int day = 0;
+	private int month = 0;
+	private int year = 0;
+
+	private PerfilBo perfilBo;
+
+	private List<Perfil> listPerfil;
+
+	@PostConstruct
+	public void init() {
+		usuario = new Usuario();
+		perfil = new Perfil();
+		PerfilBo perfilBo = new PerfilBo();
+
+	}
+
+	public String save() throws Exception {
+		
+		try {
+			usuario.setSenha(GenerateMD5.generate(usuario.getSenha()));
+			usuario.setValidacao(GenerateValidation.keyValidation());
+			usuario.getPermissoes().add(Acesso.ACESSO_COMUM.getValue());
+			usuario.setAtivado(false);
+
+			perfil.setUsuario(usuario);
+			perfil.setDataDeNascimento(ManipulateDate.getDate(year, month, day));
+
+			perfilBo.salvar(perfil);
+			return "/public/feedback_cadastro";
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-    	return null;
-    	
-    }
- 
-    public Map<String, Object> getDays() {
-        return ManipulateDate.getDays();
-    }
- 
-    public Map<String, Object> getMonths() {
-        return ManipulateDate.getMonths();
-    }
- 
-    public Map<String, Object> getYears() {
-        return ManipulateDate.getYears();
-    }
- 
-    public int getDay() {
-        return day;
-    }
- 
-    public void setDay(int day) {
-        this.day = day;
-    }
- 
-    public int getMonth() {
-        return month;
-    }
- 
-    public void setMonth(int month) {
-        this.month = month;
-    }
- 
-    public int getYear() {
-        return year;
-    }
- 
-    public void setYear(int year) {
-        this.year = year;
-    }
+		return null;
+
+	}
+
+	public Map<String, Object> getDays() {
+		return ManipulateDate.getDays();
+	}
+
+	public Map<String, Object> getMonths() {
+		return ManipulateDate.getMonths();
+	}
+
+	public Map<String, Object> getYears() {
+		return ManipulateDate.getYears();
+	}
+
+	public int getDay() {
+		return day;
+	}
+
+	public void setDay(int day) {
+		this.day = day;
+	}
+
+	public int getMonth() {
+		return month;
+	}
+
+	public void setMonth(int month) {
+		this.month = month;
+	}
+
+	public int getYear() {
+		return year;
+	}
+
+	public void setYear(int year) {
+		this.year = year;
+	}
 
 	public Usuario getUsuario() {
 		return usuario;
